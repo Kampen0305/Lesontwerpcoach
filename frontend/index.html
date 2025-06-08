@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <title>Lesontwerpcoach</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 800px; margin: auto; padding: 1em; }
+    label { display: block; margin-top: 1em; }
+  </style>
+</head>
+<body>
+  <h1>Lesontwerpcoach</h1>
+  <form id="lesson-form">
+    <label>Vak
+      <input type="text" name="subject" required>
+    </label>
+    <label>Leerdoel
+      <input type="text" name="goal" required>
+    </label>
+    <label>Doelgroep
+      <input type="text" name="audience" required>
+    </label>
+    <label>Lestijd
+      <input type="text" name="duration" required>
+    </label>
+    <label>Digitale middelen
+      <input type="text" name="devices" required>
+    </label>
+    <label>Voorkeuren
+      <input type="text" name="preferences">
+    </label>
+    <button type="submit">Genereer lesontwerp</button>
+  </form>
+  <pre id="output"></pre>
+
+  <script>
+    const form = document.getElementById('lesson-form');
+    const output = document.getElementById('output');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(form).entries());
+      const res = await fetch('/api/lesson', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      const json = await res.json();
+      output.textContent = JSON.stringify(json, null, 2);
+    });
+  </script>
+</body>
+</html>
