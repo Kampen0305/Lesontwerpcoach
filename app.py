@@ -25,7 +25,7 @@ def generate_lesson_plan(subject, goal, audience, duration, devices, preferences
             "digitaal": "Gebruik Padlet voor een exit ticket"
         },
     ]
-    plan = {
+    return {
         "vak": subject,
         "leerdoel": goal,
         "doelgroep": audience,
@@ -34,7 +34,24 @@ def generate_lesson_plan(subject, goal, audience, duration, devices, preferences
         "voorkeuren": preferences,
         "fasen": phases,
     }
-    return plan
+
+@app.route("/")
+def home():
+    return """
+    <h1>Welkom bij de Lesontwerpcoach API</h1>
+    <p>Gebruik <code>POST</code> naar <code>/api/lesson</code> met JSON om een lesplan te genereren.</p>
+    <p>Voorbeeld:</p>
+    <pre>
+{
+  "subject": "Burgerschap",
+  "goal": "Reflecteren op media",
+  "audience": "MBO niveau 3",
+  "duration": "45 minuten",
+  "devices": "mobiele telefoons",
+  "preferences": "activerende werkvormen"
+}
+    </pre>
+    """
 
 @app.route("/api/lesson", methods=["POST"])
 def lesson():
@@ -49,5 +66,4 @@ def lesson():
     return jsonify(plan)
 
 if __name__ == "__main__":
-    # Render vereist host='0.0.0.0'
     app.run(debug=True, host='0.0.0.0', port=5000)
