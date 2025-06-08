@@ -2,7 +2,6 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-
 def generate_lesson_plan(subject, goal, audience, duration, devices, preferences):
     phases = [
         {
@@ -37,7 +36,6 @@ def generate_lesson_plan(subject, goal, audience, duration, devices, preferences
     }
     return plan
 
-
 @app.route("/api/lesson", methods=["POST"])
 def lesson():
     data = request.get_json(force=True)
@@ -50,6 +48,6 @@ def lesson():
     plan = generate_lesson_plan(subject, goal, audience, duration, devices, preferences)
     return jsonify(plan)
 
-
 if __name__ == "__main__":
-    app.run(debug=True)
+    # Render vereist host='0.0.0.0'
+    app.run(debug=True, host='0.0.0.0', port=5000)
